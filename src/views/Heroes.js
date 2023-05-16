@@ -1,25 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import HeroList from './HeroesList';
 import HeroDetail from './HeroDetail';
+import { loadHeroesApi } from '../data/hero.api';
 
 function Heroes() {
-  const heroesList = [
-    {
-      id: 10,
-      name: 'Ella',
-      lastName: 'Papa',
-      description: 'fashionista',
-    },
-    {
-      id: 20,
-      name: 'Madelyn',
-      lastName: 'Papa',
-      description: 'the cat whisperer',
-    }
-  ];
   const [selectedHero, setSelectedHero] = useState(null);
-  const [heroes, setHeroes] = useState(heroesList);
+  const [heroes, setHeroes] = useState([]);
   
   function handleSelectHero(hero) {
     setSelectedHero(hero);
@@ -29,6 +16,14 @@ function Heroes() {
     updateHero(hero);
     handleCancelHero();
   }
+
+  useEffect(() => {
+    const getHeroes = async () => {
+      const heroes = await loadHeroesApi();
+      setHeroes(heroes);
+    };
+    getHeroes();
+  }, []);
 
   function handleDeleteHero(hero) {
     deleteHero(hero);

@@ -1,0 +1,16 @@
+[
+  {
+    "id": 10,
+    "name": "Ella",
+    "lastName": "Papa",
+    "description": "fashionista",
+    "capeCounter": "2"
+  },
+  {
+    "id": 20,
+    "name": "Madelyn",
+    "lastName": "Papa",
+    "description": "the cat whisperer",
+    "capeCounter": "0"
+  }
+]
