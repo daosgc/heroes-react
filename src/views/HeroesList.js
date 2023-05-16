@@ -2,10 +2,15 @@ import React from 'react';
 
 import { ButtonFooter, HeroeCard } from '../components';
 
-function HeroList({ heroes, handleSelectHero }) {
+function HeroList({ heroes, handleSelectHero, handleDeleteHero }) {
   function selectHero(e) {
     const hero = getSelectedHero(e);
     handleSelectHero(hero);
+  }
+
+  function deleteHero(e) {
+    const hero = getSelectedHero(e);
+    handleDeleteHero(hero);
   }
 
   function getSelectedHero(e) {
@@ -22,6 +27,7 @@ function HeroList({ heroes, handleSelectHero }) {
             <footer className="card-footer">
               <ButtonFooter
                 className="delete-item"
+                onClick={deleteHero}
                 label="Delete"
                 dataIndex={index}
                 dataId={hero.id}
