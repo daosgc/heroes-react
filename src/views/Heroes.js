@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import HeroList from './HeroesList';
 
@@ -16,8 +16,22 @@ function Heroes() {
       lastName: 'Papa',
       description: 'the cat whisperer',
     }
-  ]
-  return <HeroList heroes={heroesList}/>;
+  ];
+  const [selectedHero, setSelectedHero] = useState(null);
+  
+  function handleSelectHero(hero) {
+    setSelectedHero(hero);
+  }
+  
+  return (
+    <div>
+      <HeroList
+        heroes={heroesList}
+        handleSelectHero={handleSelectHero}
+      />
+      { selectedHero && ((<div>Hero Selected: {selectedHero.name}</div>))}
+    </div>
+  );
 }
 
 export default Heroes;

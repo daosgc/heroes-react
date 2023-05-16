@@ -2,7 +2,17 @@ import React from 'react';
 
 import { ButtonFooter, HeroeCard } from '../components';
 
-function HeroList({ heroes }) {
+function HeroList({ heroes, handleSelectHero }) {
+  function selectHero(e) {
+    const hero = getSelectedHero(e);
+    handleSelectHero(hero);
+  }
+
+  function getSelectedHero(e) {
+    const index = +e.currentTarget.dataset.index;
+    return heroes[index];
+  }
+
   return (
     <ul className="list">
       {heroes.map((hero, index) => (
@@ -18,6 +28,7 @@ function HeroList({ heroes }) {
               />
               <ButtonFooter
                 className="edit-item"
+                onClick={selectHero}
                 label="Edit"
                 dataIndex={index}
                 dataId={hero.id}
