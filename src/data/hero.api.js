@@ -21,3 +21,8 @@ export const loadHeroesApi = async () => {
   const response = await axios.get(`${API}/heroes.json`);
   return parseList(response, 200);
 };
+
+export const loadHeroApi = async heroId => {
+  const response = await axios.get(`${API}/heroes/${heroId}.json`);
+  return parseItem(response, 200);
+};

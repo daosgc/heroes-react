@@ -4,18 +4,18 @@ import HeroList from './HeroesList';
 import HeroDetail from './HeroDetail';
 import { loadHeroesApi } from '../data/hero.api';
 import { Switch, Route } from 'react-router-dom';
+import { updateHeroApi, deleteHeroApi } from '../data/hero.api';
 
 function Heroes({ history }) {
-  const [selectedHero, setSelectedHero] = useState(null);
   const [heroes, setHeroes] = useState([]);
   
   function handleSelectHero(hero) {
-    setSelectedHero(hero);
     history.push(`/heroes/${hero.id}`);
   }
 
-  function handleSaveHero(hero) {
-    updateHero(hero);
+  async function handleSaveHero(hero) {
+    const updatedHero = await updateHeroApi(hero);
+    updateHero(updatedHero);
     handleCancelHero();
   }
 
@@ -27,13 +27,13 @@ function Heroes({ history }) {
     getHeroes();
   }, []);
 
-  function handleDeleteHero(hero) {
-    deleteHero(hero);
+  async function handleDeleteHero(hero) {
+    const deletedHero = await deleteHeroApi(hero);
+    deleteHero(deletedHero);
     handleCancelHero();
   }
 
   function handleCancelHero() {
-    setSelectedHero(null);
     history.push('/');
   }
 
@@ -62,7 +62,6 @@ function Heroes({ history }) {
             component={() => (
               <HeroList
                 heroes={heroes}
-                selectedHero={selectedHero}
                 handleSelectHero={handleSelectHero}
                 handleDeleteHero={handleDeleteHero}
               />
@@ -74,7 +73,6 @@ function Heroes({ history }) {
             component={() => {
               return (
                 <HeroDetail
-                  hero={selectedHero}
                   handleCancelHero={handleCancelHero}
                   handleSaveHero={handleSaveHero}
                 />
