@@ -3,13 +3,15 @@ import React, { useEffect, useState } from 'react';
 import HeroList from './HeroesList';
 import HeroDetail from './HeroDetail';
 import { loadHeroesApi } from '../data/hero.api';
+import { Switch, Route } from 'react-router-dom';
 
-function Heroes() {
+function Heroes({ history }) {
   const [selectedHero, setSelectedHero] = useState(null);
   const [heroes, setHeroes] = useState([]);
   
   function handleSelectHero(hero) {
     setSelectedHero(hero);
+    history.push(`/heroes/${hero.id}`);
   }
 
   function handleSaveHero(hero) {
@@ -32,6 +34,7 @@ function Heroes() {
 
   function handleCancelHero() {
     setSelectedHero(null);
+    history.push('/');
   }
 
   function updateHero(hero) {
@@ -50,19 +53,36 @@ function Heroes() {
   }
   
   return (
-    <div>
-      <HeroList
-        heroes={heroes}
-        handleSelectHero={handleSelectHero}
-        handleDeleteHero={handleDeleteHero}
-      />
-      { selectedHero && (
-        <HeroDetail
-          hero={selectedHero}
-          handleCancelHero={handleCancelHero}
-          handleSaveHero={handleSaveHero}
-        />)
-      }
+    <div className="columns is-multiline is-variable">
+      <div className="column is-8">
+        <Switch>
+          <Route
+            exact
+            path="/heroes"
+            component={() => (
+              <HeroList
+                heroes={heroes}
+                selectedHero={selectedHero}
+                handleSelectHero={handleSelectHero}
+                handleDeleteHero={handleDeleteHero}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/heroes/:id"
+            component={() => {
+              return (
+                <HeroDetail
+                  hero={selectedHero}
+                  handleCancelHero={handleCancelHero}
+                  handleSaveHero={handleSaveHero}
+                />
+              );
+            }}
+          />
+        </Switch>
+      </div>
     </div>
   );
 }
